@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JobOffer;
+use App\Models\Occupation;
 use Illuminate\Http\Request;
 
 class JobOfferController extends Controller
@@ -24,7 +25,8 @@ class JobOfferController extends Controller
      */
     public function create()
     {
-        //
+        $occupations = Occupation::all();
+        return view('job_offers.create', compact('occupations'));
     }
 
     /**
