@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EntryController;
 use App\Http\Controllers\JobOfferController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,9 @@ Route::resource('job_offers', JobOfferController::class)
 Route::resource('job_offers', JobOfferController::class)
     ->only(['show', 'index'])
     ->middleware('auth:companies,users');
+
+Route::resource('job_offers.entries', EntryController::class)
+    ->only(['create', 'destroy'])
+    ->middleware(['auth:users']);
 
 require __DIR__ . '/auth.php';

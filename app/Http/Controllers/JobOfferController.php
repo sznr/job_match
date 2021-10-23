@@ -105,13 +105,16 @@ class JobOfferController extends Controller
      */
     public function show(JobOffer $jobOffer)
     {
+        $entry = '';
         if (Auth::guard(UserConst::GUARD)->check()) {
             JobOfferView::updateOrCreate([
                 'job_offer_id' => $jobOffer->id,
                 'user_id' => Auth::guard(UserConst::GUARD)->user()->id,
             ]);
+            $entry = $jobOffer->entries()
+                ->where('user_id', Auth::guard(UserConst::GUARD)->user()->id)->first();
         }
-        return view('job_offers.show', compact('jobOffer'));
+        return view('job_offers.show', compact('jobOffer', 'entry'));
     }
 
     /**

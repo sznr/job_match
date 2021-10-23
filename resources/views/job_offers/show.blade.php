@@ -28,6 +28,20 @@
             <p class="text-gray-700 text-base">{!! nl2br(e($jobOffer->description)) !!}</p>
         </article>
         <div class="flex flex-col sm:flex-row items-center sm:justify-end text-center my-4">
+            @if (Auth::guard(UserConst::GUARD)->check())
+                @if (empty($entry))
+                    <form action="{{ route('job_offers.entries.store', $jobOffer) }}" method="post">
+                        @csrf
+                        <input type="submit" value="エントリー" onclick="if(!confirm('エントリーしますか？')){return false};" class="w-full sm:w-40 bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                    </form>
+                @else
+                    <form action="{{ route('job_offers.entries.destroy', [$jobOffer, $entry]) }}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <input type="submit" value="エントリー取消" onclick="if(!confirm('エントリーを取り消しますか？')){return false};" class="w-full sm:w-40 bg-gradient-to-r from-pink-500 to-purple-600 hover:bg-gradient-to-l hover:from-purple-500 hover:to-pink-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32">
+                    </form>
+                @endif
+            @endif
             @if (Auth::guard(CompanyConst::GUARD)->check() &&
                 Auth::guard(CompanyConst::GUARD)->user()->can('update', $jobOffer))
                 <a href="{{ route('job_offers.edit', $jobOffer) }}" class="bg-gradient-to-r bg-gradient-to-r from-indigo-500 to-blue-600 hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-2 rounded-full tracking-wide font-semibold shadow-lg cursor-pointer transition ease-in duration-500 w-full sm:w-32 sm:mr-2 mb-2 sm:mb-0">編集</a>
