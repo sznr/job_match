@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\UserConst;
 use App\Models\JobOffer;
 use App\Models\Occupation;
 use App\Http\Requests\JobOfferRequest;
+use App\Models\JobOfferView;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class JobOfferController extends Controller
@@ -69,6 +72,12 @@ class JobOfferController extends Controller
      */
     public function show(JobOffer $jobOffer)
     {
+        if (Auth::guard(UserConst::GUARD)->check()) {
+            JobOfferView::updateOrCreate([
+                'job_offer_id' => $jobOffer->id,
+                'user_id' => Auth::guard(UserConst::GUARD)->user()->id,
+            ]);
+        }
         return view('job_offers.show', compact('jobOffer'));
     }
 

@@ -25,4 +25,9 @@ class JobOffer extends Model
     {
         return $this->belongsTo(Occupation::class);
     }
+
+    public function jobOfferViews()
+    {
+        return $this->hasMany(JobOfferView::class);
+    }
 }

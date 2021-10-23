@@ -12,7 +12,7 @@
                 <div>
                     <span>on {{ $jobOffer->created_at->format('Y-m-d') }}</span>
                     <span class="inline-block mx-1">|</span>
-                    <span>0 views</span>
+                    <span>{{ $jobOffer->jobOfferViews->count() }} views</span>
                 </div>
             </div>
             <p class="text-gray-700 text-base text-right">応募期限 :{{ $jobOffer->due_date }}</p>
