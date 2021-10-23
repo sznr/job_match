@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Features;
@@ -17,11 +19,7 @@ foreach (config('fortify.users') as $user) {
     Route::prefix($user)
         ->namespace('\Laravel\Fortify\Http\Controllers')
         ->name($user . '.')
-        ->group(function () use ($user) {
-            Route::name('dashboard')->middleware(['auth:' . Str::plural($user), 'verified'])
-                ->get('/dashboard', function () use ($user) {
-                    return view('auth.' . $user . '.dashboard');
-                });
+        ->group(function () {
 
             $enableViews = config('fortify.views', true);
 
@@ -132,3 +130,11 @@ foreach (config('fortify.users') as $user) {
                 ->name('profile.show');
         });
 }
+
+Route::get('company/dashboard', [CompanyController::class, 'dashboard'])
+    ->middleware(['auth:companies'])
+    ->name('company.dashboard');
+
+Route::get('user/dashboard', [UserController::class, 'dashboard'])
+    ->middleware(['auth:users'])
+    ->name('user.dashboard');
