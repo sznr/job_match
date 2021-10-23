@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Consts\JobOfferConst;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,20 @@ class JobOffer extends Model
 
         return $query;
     }
+
+    public function scopeOrder(Builder $query, $params)
+    {
+        if ((empty($params['sort'])) || 
+            (!empty($params['sort']) && $params['sort'] == JobOfferConst::SORT_NEW_ARRIVALS)) {
+            $query->latest();
+        } elseif (!empty($params['sort']) && $params['sort'] == JobOfferConst::SORT_VIEW_RANK) {
+            $query->withCount('jobOfferViews')
+                ->orderBy('job_offer_views_count', 'desc');
+        }
+
+        return $query;
+    }
+
 
     public function company()
     {
