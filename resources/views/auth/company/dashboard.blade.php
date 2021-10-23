@@ -7,10 +7,10 @@
                     <li class="ml-4">
                         @if (strpos(url()->full(), 'status=' . $value) ||
                             (!strpos(url()->full(), 'status') && JobOfferConst::STATUS_OPEN == $value))
-                            <a href="/?status={{ $value }}" 
+                            <a href="?status={{ $value }}" 
                                 class="hover:text-blue-500 text-green-500 font-bold">{{ $name }}</a>
                         @else
-                            <a href="/?status={{ $value }}"
+                            <a href="?status={{ $value }}"
                                 class="hover:text-blue-500">{{ $name }}</a>
                         @endif
                     </li>

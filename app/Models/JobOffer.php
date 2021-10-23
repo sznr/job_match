@@ -41,7 +41,7 @@ class JobOffer extends Model
     public function scopeSearchStatus(Builder $query, $params)
     {
         if (isset($params['status'])) {
-            $query->where('status', $params['occupation']);
+            $query->where('status', $params['status']);
         }
 
         return $query;
