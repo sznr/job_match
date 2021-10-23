@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+
+Route::get('/', [JobOfferController::class, 'index'])
+    ->name('root');
 
 Route::resource('job_offers', JobOfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
