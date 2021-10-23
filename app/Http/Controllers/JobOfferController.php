@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Consts\CompanyConst;
 use App\Consts\UserConst;
 use App\Models\JobOffer;
 use App\Models\Occupation;
@@ -121,7 +122,8 @@ class JobOfferController extends Controller
      */
     public function edit(JobOffer $jobOffer)
     {
-        //
+        $occupations = Occupation::all();
+        return view('job_offers.edit', compact('jobOffer', 'occupations'));
     }
 
     /**
@@ -131,9 +133,23 @@ class JobOfferController extends Controller
      * @param  \App\Models\JobOffer  $jobOffer
      * @return \Illuminate\Http\Response
      */
-    public function update(JobOfferRequest $request, $id)
+    public function update(JobOfferRequest $request, JobOffer $jobOffer)
     {
-        //
+        if (Auth::guard(CompanyConst::GUARD)->user()->cannot('update', $jobOffer)) {
+            return redirect()->route('job_offers.show', $jobOffer)
+                ->withErrors('自分の求人情報以外は更新できません');
+        }
+        $jobOffer->fill($request->all());
+
+        try {
+            $jobOffer->save();
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->withErrors('求人情報更新処理でエラーが発生しました');
+        }
+
+        return redirect()->route('job_offers.show', $jobOffer)
+            ->with('notice', '求人情報を更新しました');
     }
 
     /**
