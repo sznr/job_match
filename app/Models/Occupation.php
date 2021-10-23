@@ -11,6 +11,6 @@ class Occupation extends Model
 
     public function job_offer()
     {
-        return $this->belongsTo(JobOffer::class);
+        return $this->hasMany(JobOffer::class);
     }
 }
