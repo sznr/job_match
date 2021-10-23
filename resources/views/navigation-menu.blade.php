@@ -46,6 +46,12 @@
                                 {{ __('Manage Account') }}
                             </div>
 
+                            @if (Auth::guard(CompanyConst::GUARD)->check())
+                                <x-jet-dropdown-link href="{{ route('job_offers.create') }}">
+                                    {{ '求人情報登録' }}
+                                </x-jet-dropdown-link>
+                            @endif
+
                             <x-jet-dropdown-link href="{{ route($prefix . 'profile.show') }}">
                                 {{ __('Profile') }}
                             </x-jet-dropdown-link>
@@ -104,6 +110,12 @@
             </div>
 
             <div class="mt-3 space-y-1">
+
+                @if (Auth::guard(CompanyConst::GUARD)->check())
+                    <x-jet-responsive-nav-link href="{{ route('job_offers.create') }}">
+                        {{ '求人情報登録' }}
+                    </x-jet-responsive-nav-link>
+                @endif
                 <!-- Account Management -->
                 <x-jet-responsive-nav-link href="{{ route($prefix . 'profile.show') }}" :active="request()->routeIs($prefix . 'profile.show')">
                     {{ __('Profile') }}
