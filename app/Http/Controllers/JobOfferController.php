@@ -160,6 +160,19 @@ class JobOfferController extends Controller
      */
     public function destroy(JobOffer $jobOffer)
     {
-        //
+        if (Auth::guard(CompanyConst::GUARD)->user()->cannot('delete', $jobOffer)) {
+            return redirect()->route('job_offers.show', $jobOffer)
+                ->withErrors('自分の求人情報以外は削除できません');
+        }
+
+        try {
+            $jobOffer->delete();
+        } catch (\Exception $e) {
+            return back()->withInput()
+                ->withErrors('求人情報削除処理でエラーが発生しました');
+        }
+
+        return redirect()->route('job_offers.index', $jobOffer)
+            ->with('notice', '求人情報を削除しました');
     }
 }
