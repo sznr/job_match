@@ -1,5 +1,9 @@
 <x-app-layout>
     <div class="container mx-auto w-3/5 my-8 px-4 py-4">
+
+        <x-flash-message :message="session('notice')" />
+        <x-validation-errors :errors="$errors" />
+
         <div class="flex justify-end items-center mb-3">
             <h4 class="text-gray-400 text-sm">並び替え</h4>
             <ul class="flex">
